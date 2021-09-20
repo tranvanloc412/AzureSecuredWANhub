@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+        "name": "ResourceGroupARMTemplate",
+        "version": "0.1",
+        "author": "Loc Tran",
+        "description": "Ref Link: https://docs.microsoft.com/en-us/azure/templates/microsoft.resources/resourcegroups?tabs=json"
+    },
+    "parameters": {
+        "rgLocation": {
+            "type": "string",
+            "defaultValue": "Southeast Asia"
+        },
+        "rgName": {
+            "type": "string",
+            "defaultValue": "myResourceGroup"
+        },
+        "resourceTags": {
+            "type": "object",
+            "defaultValue": {
+                "Environment": "Dev",
+                "Project": "AzureSecureWANhub"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('rgLocation')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            // "scope": "string",
+            //"subscriptionID": "string"
+            "apiVersion": "2021-04-01",
+            "tags": "[parameters('resourceTags')]"
+        }
+    ]
+}

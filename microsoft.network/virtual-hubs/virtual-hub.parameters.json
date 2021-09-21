@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualWan": {
+            "value": {
+                "name": "VWan-01"
+            } 
+        },
+        "virtualHub": {
+            "value": {
+                "name": "Hub-01",
+                "addressPrefix": "10.2.0.0/16"
+            }
+        },
+        "resourceTags": {
+            "value": {
+                "Environment": "Dev",
+                "Project": "Tutorial"
+            }
+        }
+    }
+}

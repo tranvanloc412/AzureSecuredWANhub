@@ -2,25 +2,23 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "metadata": {
-        "name": "VnetARMTemplate",
+        "name": "VirtualHubTemplate",
         "version": "0.1",
         "author": "Loc Tran",
         "description": "Ref Link: https://docs.microsoft.com/en-us/azure/templates/microsoft.network/virtualwans?tabs=json"
     },
     "parameters": {
-        "virtualWanName": {
-            "type": "string",
-            "defaultValue": "VWan-01"
+        "virtualWan": {
+            "type": "object",
+            "defaultValue": {
+                "name": "VWan-01"
+            } 
         },
-        "virtualHubName": {
-            "type": "string",
-            "defaultValue": "Hub-01"
-        },
-        "virtualHubAddressPrefix": {
-            "type": "string",
-            "defaultValue": "10.1.0.0/16",
-            "metadata": {
-                "description": "Location for all resources."
+        "virtualHub": {
+            "type": "object",
+            "defaultValue": {
+                "name": "Hub-01",
+                "addressPrefix": "10.2.0.0/16"
             }
         },
         "location": {
@@ -38,28 +36,27 @@
             }
         }
     },
-    "functions": [],
     "resources": [
         {
             "type": "Microsoft.Network/virtualHubs",
-            "apiVersion": "2020-11-01",
-            "name": "[parameters('virtualHubName')]",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('virtualHub').name]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualWans', parameters('virtualWanName'))]"
+                "[resourceId('Microsoft.Network/virtualWans', parameters('virtualWan').name)]"
             ],
             "properties": {
-                "addressPrefix": "[parameters('virtualHubAddressPrefix')]",
+                "addressPrefix": "[parameters('virtualHub').addressPrefix]",
                 "virtualWan": {
-                    "id": "[resourceId('Microsoft.Network/virtualWans', parameters('virtualWanName'))]"
+                    "id": "[resourceId('Microsoft.Network/virtualWans', parameters('virtualWan').name)]"
                 }
             },
             "tags": "[parameters('resourceTags')]"
         },
         {
             "type": "Microsoft.Network/virtualWans",
-            "apiVersion": "2020-11-01",
-            "name": "[parameters('virtualWanName')]",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('virtualWan').name]",
             "location": "[parameters('location')]",
             "properties": {
                 "disableVpnEncryption": false,

@@ -1,0 +1,81 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+        "name": "VnetARMTemplate",
+        "version": "0.1",
+        "author": "Loc Tran",
+        "description": "Ref Link: https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-template"
+    },
+    "parameters": {
+        "vNetSettings": {
+            "type": "object",
+            "metadata": {
+                "description": "Provide Virtual netWorks setting paramters."
+            },
+            "defaultValue": {
+                "name": "Spoke",
+                "addressPrefixes": [
+                    {
+                        "name": "firstPrefix",
+                        "addressPrefix": "10.0.0.0/22"
+                    }
+                ],
+                "subnets": [
+                    {
+                        "name": "firstSubnet",
+                        "addressPrefix": "10.0.0.0/24"
+                    },
+                    {
+                        "name": "secondSubnet",
+                        "addressPrefix": "10.0.1.0/24"
+                    }
+                ]
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "resourceTags": {
+            "type": "object",
+            "defaultValue": {
+                "Environment": "Dev",
+                "Project": "AzureSecureWANhub"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('vNetSettings').name]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('resourceTags')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('vNetSettings').addressPrefixes[0].addressPrefix]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('vNetSettings').subnets[0].name]",
+                        "properties": {
+                            "addressPrefix": "[parameters('vNetSettings').subnets[0].addressPrefix]"
+                        }
+                    },
+                    {
+                        "name": "[parameters('vNetSettings').subnets[1].name]",
+                        "properties": {
+                            "addressPrefix": "[parameters('vNetSettings').subnets[1].addressPrefix]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

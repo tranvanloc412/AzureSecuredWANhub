@@ -1,0 +1,173 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+        "name": "FirewallPolicyTemplate",
+        "version": "0.1",
+        "author": "Loc Tran",
+        "description": "Ref Link: https://docs.microsoft.com/en-us/azure/firewall-manager/quick-secure-virtual-hub,
+        https://docs.microsoft.com/en-us/azure/templates/microsoft.network/firewallpolicies?tabs=json"
+    },
+    "parameters": {
+        "firewallPolicty": {
+            "type": "string",
+            "defaultValue": "Policy-01"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "resourceTags": {
+            "type": "object",
+            "defaultValue": {
+                "Environment": "Dev",
+                "Project": "AzureSecureWANhub"
+            }
+        }
+    },
+    "functions": [],
+    "resources": [
+        {
+            "type": "Microsoft.Network/firewallPolicies",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('firewallPolicty')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "threatIntelMode": "Alert"
+            }
+        },
+        {
+            "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[format('{0}/{1}', parameters('firewallPolicty'), 'DefaultApplicationRuleCollectionGroup')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('resourceTags')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/firewallPolicies', parameters('firewallPolicty'))]"
+            ],
+            "properties": {
+                "priority": 300,
+                "ruleCollections": [
+                    {
+                        "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "action": {
+                            "type": "Allow"
+                        },
+                        "name": "azure-global-services-nrc",
+                        "priority": 1250,
+                        "rules": [
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "Allow-msft",
+                                "protocols": [
+                                    {
+                                        "port": 80,
+                                        "protocolType": "http"
+                                    },
+                                    {
+                                        "port": 443,
+                                        "protocolType": "https"
+                                    }
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "targetFqdns": [
+                                    "*.microsoft.com"
+                                ]
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "Allow-google",
+                                "protocols": [
+                                    {
+                                        "port": 80,
+                                        "protocolType": "http"
+                                    },
+                                    {
+                                        "port": 443,
+                                        "protocolType": "https"
+                                    }
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "targetFqdns": [
+                                    "*.google.com"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+           {
+            "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[format('{0}/{1}', parameters('firewallPolicty'), 'ApplicationRuleCollectionGroup')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('resourceTags')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/firewallPolicies', parameters('firewallPolicty'))]"
+            ],
+            "properties": {
+                "priority": 100,
+                "ruleCollections": [
+                    {
+                        "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "action": {
+                            "type": "Allow"
+                        },
+                        "name": "azure-global-services-nrc",
+                        "priority": 1250,
+                        "rules": [
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "Allow-msft",
+                                "protocols": [
+                                    {
+                                        "port": 80,
+                                        "protocolType": "http"
+                                    },
+                                    {
+                                        "port": 443,
+                                        "protocolType": "https"
+                                    }
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "targetFqdns": [
+                                    "*.microsoft.com"
+                                ]
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "Allow-google",
+                                "protocols": [
+                                    {
+                                        "port": 80,
+                                        "protocolType": "http"
+                                    },
+                                    {
+                                        "port": 443,
+                                        "protocolType": "https"
+                                    }
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "targetFqdns": [
+                                    "*.google.com"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

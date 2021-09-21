@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vNetSettings": {
+            "value": {
+                "name": "Spoke-02",
+                "addressPrefixes": [
+                    {
+                        "name": "firstPrefix",
+                        "addressPrefix": "10.1.0.0/22"
+                    }
+                ],
+                "subnets": [
+                    {
+                        "name": "firstSubnet",
+                        "addressPrefix": "10.1.0.0/24"
+                    },
+                    {
+                        "name": "secondSubnet",
+                        "addressPrefix": "10.1.1.0/24"
+                    }
+                ]
+            }
+        },
+        "resourceTags": {
+            "value": {
+                "Environment": "Dev",
+                "Project": "Tutorial"
+            }
+        }
+    }
+}

@@ -24,7 +24,6 @@
             "type": "string",
             "defaultValue": "AzfwTest"
         },
-
         "vNet": {
             "type": "string",
             "defaultValue": "VNet1"
@@ -37,11 +36,10 @@
             }
         }
     },
-    "functions": [],
     "resources": [
         {
             "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-            "apiVersion": "2020-11-01",
+            "apiVersion": "2021-04-01",
             "name": "[format('{0}/{1}', parameters('virtualHub'), parameters('hubSpokeConnection'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualHubs/hubRouteTables', parameters('virtualHub'), parameters('routeTable'))]"

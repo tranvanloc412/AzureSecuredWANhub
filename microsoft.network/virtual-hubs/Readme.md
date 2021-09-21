@@ -1,7 +1,7 @@
 # Sign in to Azure
 Connect-AzAccount
 
-$BasePath = "D:\Project\NCS DevNET\Code\AzureSecuredWANhub\microsoft.network\virtual-hubs\"
+$BasePath = "D:\Project\NCS DevNET\Code\AzureSecuredWANhub\microsoft.network\virtual-hubs\" <br />
 $RGName = "myResourceGroup"
 
 # PowerShell Run Command

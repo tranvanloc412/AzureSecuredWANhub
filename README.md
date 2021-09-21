@@ -7,9 +7,9 @@ Connect-AzAccount
 Set-AzContext [SubscriptionID/SubscriptionName]
 
 # Steps:
-deploy .\microsoft.resources\resource-groups\resource-groups.json
-deploy .\microsoft.network\virtual-networks\vnet.json
-deploy .\microsoft.network\virtual-hubs\virtual-hub.json
-deploy .\microsoft.network\azure-firewalls\firewall-policy.json
-deploy .\microsoft.network\azure-firewalls\azure-firewall.json => **convert vhub to secure hub**.
-deploy .\microsoft.network\virtual-hubs\hub-spoke-conn.json => **create hub vnet connection and route table**.
+deploy .\microsoft.resources\resource-groups\resource-groups.json <br />
+deploy .\microsoft.network\virtual-networks\vnet.json <br />
+deploy .\microsoft.network\virtual-hubs\virtual-hub.json <br />
+deploy .\microsoft.network\azure-firewalls\firewall-policy.json <br />
+deploy .\microsoft.network\azure-firewalls\azure-firewall.json => **convert vhub to secure hub**. <br />
+deploy .\microsoft.network\virtual-hubs\hub-spoke-conn.json => **create hub vnet connection and route  table**. <br />

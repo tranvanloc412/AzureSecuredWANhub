@@ -11,3 +11,13 @@ New-AzSubscriptionDeployment -Location "Southeast Asia" -TemplateFile .\Resource
 
 # Deploy Vnet
 New-AzResourceGroupDeployment -ResourceGroupName <resource-group-name> -TemplateFile <path-to-template>
+
+# Steps:
+deploy .\ResourceGroup.json
+deploy .\Vnet.json
+deploy .\SecureVirtualHub.json
+deploy .\FirewallPolicy.json
+deploy .\AzureFirewall.json => convert vhub to secure hub
+deploy .\HubVnetConnection.json => create hub vnet connection and route table
+
+

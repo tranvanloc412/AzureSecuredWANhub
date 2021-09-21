@@ -15,7 +15,7 @@
             "value": "AzfwTest"
         },
         "vNet": {
-            "value": "VNet1"
+            "value": "Spoke-01"
         }
     }
 }
